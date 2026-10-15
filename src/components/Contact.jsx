@@ -1,6 +1,33 @@
+import { useState } from 'react'
 import { images } from '../data/images'
 
 export default function Contact() {
+  const [result, setResult] = useState("")
+
+  const onSubmit = async (event) => {
+    event.preventDefault()
+    setResult("Sending....")
+    const formData = new FormData(event.target)
+    formData.append("access_key", "36209b4b-00b8-47e0-91d1-5bc3ae8b1e52")
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      })
+
+      const data = await response.json()
+      if (data.success) {
+        setResult("Form Submitted Successfully")
+        event.target.reset()
+      } else {
+        setResult("Error")
+      }
+    } catch {
+      setResult("Error")
+    }
+  }
+
   return (
     <section id="contact" className="py-16 sm:py-20 px-5 sm:px-6 max-w-5xl mx-auto mb-12 sm:mb-20 scroll-mt-24">
       <div className="flex pl-4 sm:pl-8 relative z-20 -mb-[2px]">
@@ -34,7 +61,7 @@ export default function Contact() {
             <h3 className="font-black text-zinc-900 text-lg tracking-widest uppercase mb-5 sm:mb-6 border-b-2 border-zinc-900 pb-2">
               Send Message
             </h3>
-            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" className="flex flex-col gap-6">
+            <form onSubmit={onSubmit} className="flex flex-col gap-6">
               <input 
                 type="text" 
                 name="name"
@@ -58,10 +85,16 @@ export default function Contact() {
               ></textarea>
               <button 
                 type="submit" 
-                className="mt-2 bg-zinc-900 text-white font-bold uppercase tracking-widest text-sm px-6 py-3 border-2 border-zinc-900 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all cursor-pointer"
+                disabled={result === "Sending...."}
+                className="mt-2 bg-zinc-900 text-white font-bold uppercase tracking-widest text-sm px-6 py-3 border-2 border-zinc-900 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] hover:translate-y-1 hover:translate-x-1 hover:shadow-none transition-all cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Send
+                {result === "Sending...." ? "Sending..." : "Send"}
               </button>
+              {result && (
+                <span className={`text-xs font-black uppercase tracking-wider text-center ${result === "Form Submitted Successfully" ? "text-emerald-800" : result === "Sending...." ? "text-zinc-800" : "text-red-700"}`}>
+                  {result}
+                </span>
+              )}
             </form>
           </div>
 
