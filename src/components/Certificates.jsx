@@ -97,4 +97,5 @@ export default function Certificates() {
       </AnimatePresence>
     </section>
   )
+  
 }
