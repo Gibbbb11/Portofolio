@@ -13,11 +13,11 @@ export const projects = [
   },
 
   {
-    id: 'CRUD',
-    tabName: 'PROJECT #02',
-    title: 'CRUD Application',
-    category: 'Web Development',
-    description: 'A simple CRUD (Create, Read, Update, Delete) application built with React and Node.js, demonstrating full-stack development concepts.',
+    id: 'Upcomming',
+    tabName: 'Upcomming Project',
+    title: 'Upcoming Project',
+    category: '...',
+    description: '...',
     tags: ['PHP', 'Laravel', 'MySQL', 'CRUD'],
     image: '/Images/project-2.png',
     link: '',
